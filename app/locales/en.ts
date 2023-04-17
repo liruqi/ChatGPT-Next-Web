@@ -19,6 +19,7 @@ const en: LocaleType = {
       Copy: "Copy",
       Stop: "Stop",
       Retry: "Retry",
+      Delete: "Delete",
     },
     Rename: "Rename Chat",
     Typing: "Typing…",
@@ -75,6 +76,9 @@ const en: LocaleType = {
         tw: "繁體中文",
         es: "Español",
         it: "Italiano",
+        tr: "Türkçe",
+        jp: "日本語",
+        de: "Deutsch",
       },
     },
     Avatar: "Avatar",
@@ -103,6 +107,11 @@ const en: LocaleType = {
       ListCount: (builtin: number, custom: number) =>
         `${builtin} built-in, ${custom} user-defined`,
       Edit: "Edit",
+      Modal: {
+        Title: "Prompt List",
+        Add: "Add One",
+        Search: "Search Prompts",
+      },
     },
     HistoryCount: {
       Title: "Attached Messages Count",
@@ -124,7 +133,7 @@ const en: LocaleType = {
         return `Used this month $${used}, subscription $${total}`;
       },
       IsChecking: "Checking...",
-      Check: "Check Again",
+      Check: "Check",
       NoAccess: "Enter API Key to check balance",
     },
     AccessCode: {
