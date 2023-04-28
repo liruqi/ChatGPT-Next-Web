@@ -4,6 +4,7 @@ import {
   ModelConfig,
   ModelType,
   useAccessStore,
+  useAppConfig,
   useChatStore,
 } from "./store";
 import { showToast } from "./components/ui-lib";
@@ -27,11 +28,10 @@ const makeRequestParam = (
     sendMessages = sendMessages.filter((m) => m.role !== "assistant");
   }
 
-  const modelConfig = { ...useChatStore.getState().config.modelConfig };
-
-  // @yidadaa: wont send max_tokens, because it is nonsense for Muggles
-  // @ts-expect-error
-  delete modelConfig.max_tokens;
+  const modelConfig = {
+    ...useAppConfig.getState().modelConfig,
+    ...useChatStore.getState().currentSession().mask.modelConfig,
+  };
 
   // override model config
   if (options?.model) {
@@ -41,7 +41,9 @@ const makeRequestParam = (
   return {
     messages: sendMessages,
     stream: options?.stream,
-    ...modelConfig,
+    model: modelConfig.model,
+    temperature: modelConfig.temperature,
+    presence_penalty: modelConfig.presence_penalty,
   };
 };
 
@@ -149,6 +151,7 @@ export async function requestChatStream(
   options?: {
     filterBot?: boolean;
     modelConfig?: ModelConfig;
+    model?: ModelType;
     onMessage: (message: string, done: boolean) => void;
     onError: (error: Error, statusCode?: number) => void;
     onController?: (controller: AbortController) => void;
@@ -157,6 +160,7 @@ export async function requestChatStream(
   const req = makeRequestParam(messages, {
     stream: true,
     filterBot: options?.filterBot,
+    model: options?.model,
   });
 
   console.log("[Request] ", req);
