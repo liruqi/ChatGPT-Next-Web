@@ -5,7 +5,7 @@
 
 一键免费部署你的私人 ChatGPT 网页应用。
 
-[演示 Demo](https://chat.canomusique.com/) / [微信群](./docs/images/wechat.jpg) / [打赏](./docs/images/tip.jpg)
+[演示 Demo](https://chat.canomusique.com/) / [频道](https://t.me/canomusique) / [打赏](./docs/images/tip.jpg) 
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FYidadaa%2FChatGPT-Next-Web&env=OPENAI_API_KEY&env=CODE&project-name=chatgpt-next-web&repository-name=ChatGPT-Next-Web)
 
@@ -33,6 +33,7 @@
 - 在 Vercel 重新选择并部署，[请查看详细教程](./docs/vercel-cn.md#如何新建项目)。
 
 ### 打开自动更新
+
 > 如果你遇到了 Upstream Sync 执行错误，请手动 Sync Fork 一次！
 
 当你 fork 项目之后，由于 Github 的限制，需要手动去你 fork 后的项目的 Actions 页面启用 Workflows，并启用 Upstream Sync Action，启用之后即可开启每小时定时自动更新：
@@ -63,7 +64,7 @@ code1,code2,code3
 
 ## 环境变量
 
-> 本项目大多数配置项都通过环境变量来设置。
+> 本项目大多数配置项都通过环境变量来设置，教程：[如何修改 Vercel 环境变量](./docs/vercel-cn.md)。
 
 ### `OPENAI_API_KEY` （必填项）
 
@@ -89,9 +90,19 @@ OpenAI 接口代理 URL，如果你手动配置了 openai 接口代理，请填�
 
 指定 OpenAI 中的组织 ID。
 
-## 开发
+### `HIDE_USER_API_KEY` （可选）
 
-> 强烈不建议在本地进行开发或者部署，由于一些技术原因，很难在本地配置好 OpenAI API 代理，除非你能保证可以直连 OpenAI 服务器。
+如果你不想让用户自行填入 API Key，将此环境变量设置为 1 即可。
+
+### `DISABLE_GPT4` （可选）
+
+如果你不想让用户使用 GPT-4，将此环境变量设置为 1 即可。
+
+### `HIDE_BALANCE_QUERY` （可选）
+
+如果你不想让用户查询余额，将此环境变量设置为 1 即可。
+
+## 开发
 
 点击下方按钮，开始二次开发：
 
@@ -101,20 +112,24 @@ OpenAI 接口代理 URL，如果你手动配置了 openai 接口代理，请填�
 
 ```
 OPENAI_API_KEY=<your api key here>
+
+# 中国大陆用户，可以使用本项目自带的代理进行开发，你也可以自由选择其他代理地址
+BASE_URL=https://chatgpt1.nextweb.fun/api/proxy
 ```
 
 ### 本地开发
 
 1. 安装 nodejs 18 和 yarn，具体细节请询问 ChatGPT；
-2. 执行 `yarn install && yarn dev` 即可。⚠️注意：此命令仅用于本地开发，不要用于部署！
-3. 如果你想本地部署，请使用 `yarn install && yarn start` 命令，你可以配合 pm2 来守护进程，防止被杀死，详情询问 ChatGPT。
+2. 执行 `yarn install && yarn dev` 即可。⚠️ 注意：此命令仅用于本地开发，不要用于部署！
+3. 如果你想本地部署，请使用 `yarn install && yarn build && yarn start` 命令，你可以配合 pm2 来守护进程，防止被杀死，详情询问 ChatGPT。
 
 ## 部署
 
 ### 容器部署 （推荐）
+
 > Docker 版本需要在 20 及其以上，否则会提示找不到镜像。
 
-> ⚠️注意：docker 版本在大多数时间都会落后最新的版本 1 到 2 天，所以部署后会持续出现“存在更新”的提示，属于正常现象。
+> ⚠️ 注意：docker 版本在大多数时间都会落后最新的版本 1 到 2 天，所以部署后会持续出现“存在更新”的提示，属于正常现象。
 
 ```shell
 docker pull yidadaa/chatgpt-next-web
@@ -136,6 +151,12 @@ docker run -d -p 3000:3000 \
    yidadaa/chatgpt-next-web
 ```
 
+如果你的本地代理需要账号密码，可以使用：
+
+```shell
+-e PROXY_URL="http://127.0.0.1:7890 user password"
+```
+
 如果你需要指定其他环境变量，请自行在上述命令中增加 `-e 环境变量=环境变量值` 来指定。
 
 ### 本地部署
@@ -146,7 +167,7 @@ docker run -d -p 3000:3000 \
 bash <(curl -s https://raw.githubusercontent.com/Yidadaa/ChatGPT-Next-Web/main/scripts/setup.sh)
 ```
 
-⚠️注意：如果你安装过程中遇到了问题，请使用 docker 部署。
+⚠️ 注意：如果你安装过程中遇到了问题，请使用 docker 部署。
 
 ## 鸣谢
 
@@ -160,6 +181,4 @@ bash <(curl -s https://raw.githubusercontent.com/Yidadaa/ChatGPT-Next-Web/main/s
 
 ## 开源协议
 
-> 反对 996，从我开始。
-
-[Anti 996 License](https://github.com/kattgu7/Anti-996-License/blob/master/LICENSE_CN_EN)
+[MIT](https://opensource.org/license/mit/)

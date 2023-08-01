@@ -16,6 +16,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { Path } from "../constant";
 import { MaskAvatar } from "./mask";
 import { Mask } from "../store/mask";
+import { useRef, useEffect } from "react";
+import { showConfirm } from "./ui-lib";
 
 export function ChatItem(props: {
   onClick?: () => void;
@@ -24,11 +26,19 @@ export function ChatItem(props: {
   count: number;
   time: string;
   selected: boolean;
-  id: number;
+  id: string;
   index: number;
   narrow?: boolean;
   mask: Mask;
 }) {
+  const draggableRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    if (props.selected && draggableRef.current) {
+      draggableRef.current?.scrollIntoView({
+        block: "center",
+      });
+    }
+  }, [props.selected]);
   return (
     <Draggable draggableId={`${props.id}`} index={props.index}>
       {(provided) => (
@@ -37,7 +47,10 @@ export function ChatItem(props: {
             props.selected && styles["chat-item-selected"]
           }`}
           onClick={props.onClick}
-          ref={provided.innerRef}
+          ref={(ele) => {
+            draggableRef.current = ele;
+            provided.innerRef(ele);
+          }}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           title={`${props.title}\n${Locale.ChatItem.ChatItemCount(
@@ -60,14 +73,15 @@ export function ChatItem(props: {
                 <div className={styles["chat-item-count"]}>
                   {Locale.ChatItem.ChatItemCount(props.count)}
                 </div>
-                <div className={styles["chat-item-date"]}>
-                  {new Date(props.time).toLocaleString()}
-                </div>
+                <div className={styles["chat-item-date"]}>{props.time}</div>
               </div>
             </>
           )}
 
-          <div className={styles["chat-item-delete"]} onClick={props.onDelete}>
+          <div
+            className={styles["chat-item-delete"]}
+            onClickCapture={props.onDelete}
+          >
             <DeleteIcon />
           </div>
         </div>
@@ -77,14 +91,14 @@ export function ChatItem(props: {
 }
 
 export function ChatList(props: { narrow?: boolean }) {
-  const [sessions, selectedIndex, selectSession, removeSession, moveSession] =
-    useChatStore((state) => [
+  const [sessions, selectedIndex, selectSession, moveSession] = useChatStore(
+    (state) => [
       state.sessions,
       state.currentSessionIndex,
       state.selectSession,
-      state.removeSession,
       state.moveSession,
-    ]);
+    ],
+  );
   const chatStore = useChatStore();
   const navigate = useNavigate();
 
@@ -126,8 +140,11 @@ export function ChatList(props: { narrow?: boolean }) {
                   navigate(Path.Chat);
                   selectSession(i);
                 }}
-                onDelete={() => {
-                  if (!props.narrow || confirm(Locale.Home.DeleteChat)) {
+                onDelete={async () => {
+                  if (
+                    !props.narrow ||
+                    (await showConfirm(Locale.Home.DeleteChat))
+                  ) {
                     chatStore.deleteSession(i);
                   }
                 }}
