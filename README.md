@@ -16,7 +16,7 @@ One-Click to get well-designed cross-platform ChatGPT web UI.
 
 [Web App](https://chat.canomusique.com/) / [Desktop App](https://github.com/Yidadaa/ChatGPT-Next-Web/releases) / [Issues](https://github.com/Yidadaa/ChatGPT-Next-Web/issues) / [打赏](./docs/images/tip.jpg)
 
-[网页版](https://chat.canomusique.com/) / [客户端](https://github.com/Yidadaa/ChatGPT-Next-Web/releases) / [反馈](https://github.com/Yidadaa/ChatGPT-Next-Web/issues) / [打赏开发者](https://user-images.githubusercontent.com/16968934/227772541-5bcd52d8-61b7-488c-a203-0330d8006e2b.jpg)
+[网页版](https://chat.canomusique.com/) / [客户端](https://github.com/Yidadaa/ChatGPT-Next-Web/releases) / [反馈](https://github.com/Yidadaa/ChatGPT-Next-Web/issues) 
 
 [web-url]: https://chat.canomusique.com/ 
 [download-url]: https://github.com/Yidadaa/ChatGPT-Next-Web/releases
