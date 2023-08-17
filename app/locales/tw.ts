@@ -4,7 +4,7 @@ import type { PartialLocaleType } from "./index";
 const tw: PartialLocaleType = {
   WIP: "該功能仍在開發中……",
   Error: {
-    Unauthorized: "目前您的狀態是未授權，請前往[設定頁面](/#/auth)輸入授權碼。",
+    Unauthorized: "目前您的狀態是未授權，請前往[設定頁面](/#/auth)輸入授權碼。如果没有访问密码，请添加站长微信私聊获取：li_ruqi",
   },
   ChatItem: {
     ChatItemCount: (count: number) => `${count} 條對話`,
